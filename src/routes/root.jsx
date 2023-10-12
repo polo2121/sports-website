@@ -1,36 +1,47 @@
 import { createBrowserRouter } from "react-router-dom";
-import ErrorPage from "../pages/error";
 
-// pages
+// - layouts
+import RootLayout from "@/layouts/root-layout";
+
+// - pages
 import HomePage from "@/pages/home"
 import PlayersPage from "@/pages/players"
-
+import PlayerPage from '@/pages/player'
+import TeamsPage from "@/pages/teams";
+import TeamPage from "@/pages/team";
+import NotFoundPage from "@/pages/not-found";
+import ErrorPage from '@/pages/error'
 
 const router = createBrowserRouter([
     {
         path: "/",
-        element: <HomePage />,
-        children: [{
-            path: "home",
-            index: true,
-        }]
-    },
-    {
-        path: "/home",
-        index: true,
-    },
-    {
-        path: "/players",
-        element: <PlayersPage />
-    },
-    {
-        path: "/teams",
-        element: <div>This is team path</div>
+        element: <RootLayout />,
+        errorElement: <ErrorPage />,
+        children: [
+            {
+                path: "players",
+                element: <PlayersPage />,
+                children: [{
+                    path: ":player",
+                    element: <PlayerPage />,
+                }]
+            },
+            {
+                path: "teams",
+                element: <TeamsPage />
+            },
+            {
+                path: ":team",
+                element: <TeamPage />,
+            },
+
+        ]
     },
     {
         path: "*",
-        element: <div>404 Not Found</div>
-    }
+        element: <NotFoundPage />
+    },
+
 ]);
 
 export default router;
